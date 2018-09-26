@@ -6,7 +6,7 @@ to-dos:
 
 - Andere Paper/Quellen identifizieren und in der Intro/Literatureteil zitieren (welche haben Klassifikation/Regression/Survival/Clustering Datensätze?)
   - Beispiele für andere Repositories: UCI, OpenML, Kaggle
-  - Beispiele für andere benchmarking suites: OpenML100, Penn-ML (Olson et. al)
+  - Beispiele für andere benchmarking suites: OpenML100, Penn-ML (Olson et. al), Keel
 - zusätzliche Datensätze finden
   - insbesondere big data Datensätze; Sammlung sollte möglichst heterogen sein.
   - z.B. Kaggle Datensätze
