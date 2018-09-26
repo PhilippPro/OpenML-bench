@@ -1,0 +1,17 @@
+Erste Analyse der Dataset Repositorys 26.09.2018
+
+
+
+
+•	PMLB hat inzwischen Regression-datasets mitaufgenommen 
+
+	o	Viele der Datensätze sind in OpenML enthalten und auch schon in meiner Bachelorarbeit mitaufgenommen worden 
+	o	Schätzungsweise 100 datensätze, ca. 20 davon kommen in Frage 
+
+•	Keel hat ca 30 regressionsdatensätze aufgenommen, auch hier sind viele davon bereits in der Datensatzsammlung von mir und kommen somit nicht in Frage. 
+	
+	o	Der größte in Frage kommende Datensatz hat 20.000 Beobachtungen
+
+•	Bei Kaggle verstehe ich die Lizenzen nicht ganz, ganz dumm gefragt: 
+	Bei dieser Lizenz kann ich mit dem Datensatz machen was ich will oder:
+	https://creativecommons.org/publicdomain/zero/1.0/
