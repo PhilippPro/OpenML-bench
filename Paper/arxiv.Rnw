@@ -1,0 +1,85 @@
+\documentclass[a4paper]{article}
+
+\usepackage[a4paper,%
+            left=0.5in,right=0.5in,top=1in,bottom=1in]{geometry}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsthm,amsmath,amssymb,amstext}
+\usepackage{booktabs}
+\usepackage{array}
+
+\usepackage{nicefrac}
+\usepackage{caption}
+\usepackage{tabularx}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{lscape}
+\usepackage{placeins}
+\usepackage{colortbl}
+\usepackage{dsfont}
+\usepackage{multirow}
+\usepackage{listings}
+\usepackage{adjustbox}
+\usepackage{setspace}
+\onehalfspacing
+\usepackage{url}
+\usepackage[round]{natbib}
+\bibliographystyle{abbrvnat}
+
+%max number of Figures on one page
+\setcounter{topnumber}{8}
+\setcounter{bottomnumber}{8}
+\setcounter{totalnumber}{8}
+
+%% load any required packages here
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\begin{document}
+
+\title{Regression Benchmarking Datasets on OpenML}
+
+\author{by Merlin Raabe and Philipp Probst}
+
+\maketitle
+\abstract{
+Short description
+}
+
+\section{Introduction}
+
+\section{Literature Review}
+\label{sec:literature}
+  
+Here we cite some literature, e.g. \citet{Bischl2017}.
+  
+
+
+\section{Methods}
+
+\section{The datasets}
+ 
+\section{A little benchmark}
+
+<<a, eval=TRUE, echo=TRUE>>=
+  a = 1
+  plot(a)
+@
+
+\section{Conclusion and Discussion}
+\label{sec:conclusion}
+
+\FloatBarrier
+
+\bibliography{arxiv}
+
+\end{document}
+
+
+
+
+
+
+
+
+
+
