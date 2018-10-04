@@ -36,13 +36,16 @@
 \IfFileExists{upquote.sty}{\usepackage{upquote}}{}
 \begin{document}
 
-\title{Regression Benchmarking Datasets on OpenML}
+\title{Regression Benchmark Datasets on OpenML}
 
 \author{by Merlin Raabe and Philipp Probst}
 
 \maketitle
 \abstract{
 Short description
+
+We present a collection of regression datasets that is suitable for performing benchmarks. The datasets are chosen to provide different data scenarios including small and big datasets regarding observations and variables. 
+The datasets are available on OpenML and tagged with XXX so that the download and usage of these datasets can be automatized. We provide an example with code where we download the datasets and make a little benchmark with some of the standard machine learning algorithms XXX. 
 }
 
 \section{Introduction}
