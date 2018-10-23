@@ -20,3 +20,4 @@ to-dos:
   - Benchmark verändern? 
     - Evtl. auto tuning Pakete verwenden, wie z.B. tuneRanger oder autoxgboost
     - h2O-AutoML evtl. noch interessant (evtl. andere autoML Algorithmen?)
+- Hier Antwort zu meiner eigenen Frage verfassen, sobald die Datensatzsammlung/das Paper steht: https://opendata.stackexchange.com/questions/12134/regression-datasets-for-benchmarking
