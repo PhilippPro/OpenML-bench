@@ -55,6 +55,10 @@ The datasets are available on OpenML and tagged with XXX so that the download an
   
 Here we cite some literature, e.g. \citet{Bischl2017}.
   
+  \citet{Olson2017},
+  \citet{OpenML2013}
+
+  
 
 
 \section{Methods}
