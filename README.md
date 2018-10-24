@@ -10,7 +10,6 @@ to-dos:
 - zusätzliche Datensätze finden
   - insbesondere big data Datensätze; Sammlung sollte möglichst heterogen sein.
   - z.B. Kaggle Datensätze
-  - oder airline Datensatz von Szilard Pafka
   - Lizenzen der einzelnen Datensätze checken und auf OpenML hochladen
 - Softwareanbindung: 
   - Auf OpenML taggen (Datensätze oder Tasks?)
