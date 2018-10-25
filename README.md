@@ -23,6 +23,7 @@ to-dos:
     - h2O-AutoML evtl. noch interessant (evtl. andere autoML Algorithmen?)
     - Welche Maße? Kendall, rsq, Pearson, Spearman?
   - kurzer Codeabschnitt mit Beispiel wie man von OpenML die Datensätze runterlädt
+  - kurze Beschreibung mit Anzahl Variablen, Features, etc. 
   - keinen festen Datensatz, erweiterbar machen?
   - Name: Regression Suite 2019?
 - Hier Antwort zu meiner eigenen Frage verfassen, sobald die Datensatzsammlung/das Paper steht: https://opendata.stackexchange.com/questions/12134/regression-datasets-for-benchmarking
