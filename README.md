@@ -7,10 +7,10 @@ to-dos:
 - Andere Paper/Quellen identifizieren und in der Intro/Literatureteil zitieren (welche haben Klassifikation/Regression/Survival/Clustering Datensätze?)
   - Beispiele für andere Repositories: UCI, OpenML, Kaggle
   - Beispiele für andere benchmarking suites: OpenML100, Penn-ML (Olson et. al), Keel
-  - evtl. bei Philipp am Institut? genetische Datensätze?
 - zusätzliche Datensätze finden
   - insbesondere big data Datensätze; Sammlung sollte möglichst heterogen sein.
   - z.B. Kaggle Datensätze
+  - evtl. bei Philipp am Institut? genetische Datensätze?
   - Lizenzen der einzelnen Datensätze checken und auf OpenML hochladen
 - Softwareanbindung: 
   - Auf OpenML taggen (Datensätze oder Tasks?); Tag oder Study in OpenML? Name?
