@@ -1,4 +1,4 @@
-\begin{thebibliography}{3}
+\begin{thebibliography}{4}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -12,6 +12,12 @@ B.~{Bischl}, G.~{Casalicchio}, M.~{Feurer}, F.~{Hutter}, M.~{Lang}, R.~G.
 \newblock {{OpenML} benchmarking suites and the {OpenML100}}.
 \newblock \emph{ArXiv preprint arXiv:1708.03731}, 2017.
 \newblock URL \url{https://arxiv.org/abs/1708.03731}.
+
+\bibitem[Hastie et~al.(2009)Hastie, Friedman, and Tibshirani]{Hastie2009}
+T.~J. Hastie, J.~H. Friedman, and R.~Tibshirani.
+\newblock The elements of statistical learning: data mining, inference, and
+  prediction.
+\newblock 2009.
 
 \bibitem[Olson et~al.(2017)Olson, La~Cava, Orzechowski, Urbanowicz, and
   Moore]{Olson2017}
