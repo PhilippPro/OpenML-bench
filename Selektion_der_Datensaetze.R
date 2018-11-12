@@ -42,7 +42,7 @@ saveOMLConfig(apikey = "f825394339f0ff5facce111e26bf0933", arff.reader = "RWeka"
 # Nur Tasks, bei denen eine 10-fold Crossvalidation durchführbar ist
 # Nur Tasks ohne fehlende Werte
 
-reg = listOMLTasks(task.type = "Supervised Regression", estimation.procedure = "10-fold Crossvalidation", limit = 100000, number.of.missing.values = 0)
+reg = listOMLTasks(task.type = "Supervised Regression", estimation.procedure = "10-fold Crossvalidation", number.of.missing.values = 0)
 
 # 377 Tasks
 dim(reg)

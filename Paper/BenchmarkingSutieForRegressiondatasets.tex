@@ -49,14 +49,15 @@ The datasets are available on OpenML and tagged with XXX so that the download an
 }
 
 \section{Introduction}
-Machine learning has become to a widespread and frequently issued part of data science. The comunity of researchers keeps growing and there are many platforms that provide datasets and the possibility to share results which specific methods of machine learning achieved on them. Kaggle, PMLB, UCI and OpenML are probably the most common of them. \newline 
-What the comunity is lacking are so called \"benchmarking suites\" which are collections of datasets that are appropriate to test and compare the capabilities of methods of machine learning. 
+Machine learning has become to a widespread and frequently issued part of data science. The comunity of researchers keeps growing and there are many platforms that provide datasets and the possibility to share results which specific methods of machine learning achieved on them. Kaggle, PMLB, UCI and OpenML are probably the most common of them. 
+\newline 
+What the comunity is lacking are so called \texttt{benchmarking suites} which are collections of datasets that are appropriate to test and compare the capabilities of methods of machine learning. 
 Papers like \texttt{OpenML100} issue this topic and the authors created a benchmarking suite consisting of datasets which have been selected carefully. This benchmarking suite has been created for classification methods of machine learning. \newline 
-textttt{OpenML100} is one of more benchmarking suites for this kind of machine learning problem. \newline 
-On the contrary for other kinds of machine learning problems like survival or regression there aren't that many suites. \newline 
-So it is also for problems of the range of regressionproblems. There are many datasets available on the platforms mentioned earlier but no benchmarking suites to compare results. That's why the authors of this paper colleccted datasets from those platforms and inserted them in a study called \texttt{PLACEHOLDER} on \texttt{OpenML}. 
-At this stage it contains PLACEHOLDER datasets.
-For the selection of the datasets the authors defined hard criterias which are: 
+\texttt{OpenML100} is one of more benchmarking suites for this kind of machine learning problem. \newline 
+On the contrary for other kinds of machine learning problems there aren't that many suites. \newline 
+So it is also for problems of the range of regression. There are many datasets, tasks and results available on the platforms mentioned earlier but no benchmarking suites to compare results of a learner with the results of other learners on several datasets. That's we collected datasets from those platforms and inserted them in a study called XXX on \texttt{OpenML}. 
+At this stage it contains XXX datasets.
+For the selection of the datasets we defined hard criterias which are: 
 \begin{enumerate}
 	\item The dataset consists of at least 150 observations 
 	\item The dataset provides at least 4 distinct features 
@@ -65,7 +66,7 @@ For the selection of the datasets the authors defined hard criterias which are:
 	\item The dataset isn't a subset of or very similar to another dataset 
 	\item The R-Squared calculated during a linear regression didn't reach 1
 \end{enumerate}
-Several Methods of machine learning which are \texttt{K-nearest neighbors}, \texttt{Decision Tree}, \texttt{Random Forest}, \texttt{Elastic Net Regression} and \texttt{Support Vector Machine} have been executed on those datasets. 
+The machine learning methods \texttt{K-nearest neighbors}, \texttt{Decision Tree}, \texttt{Random Forest}, \texttt{Elastic Net Regression} and \texttt{Support Vector Machine} have been executed on those datasets. 
 \newline 
 To compare them for each of them the average R-Squared and the average Kendalls Tau haven been calculated after training the methods with the use of 10-fold crossvalidation.
 \section{Literature Review}
