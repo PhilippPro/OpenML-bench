@@ -598,7 +598,7 @@ dim(reg)
 
 
 
-# gleiches Vorgehen wie bei der Berechnung des Bestimmtheitsmaßßes für nicht synthetische Datensätze 
+# gleiches Vorgehen wie bei der Berechnung des Bestimmtheitsmaßes für nicht synthetische Datensätze 
 all_R_2_artificial <- data.frame(task.id = character(),data.id = character(),data.name = character(),  N_observations = integer(), R_2=double())
 
 
