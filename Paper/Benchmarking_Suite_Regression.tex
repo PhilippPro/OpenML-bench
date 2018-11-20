@@ -42,51 +42,59 @@
 
 \maketitle
 \abstract{
-We present a collection of regression datasets that is suitable for performing benchmarks. The datasets are chosen to provide different data scenarios including small and big datasets regarding observations and variables. 
-The datasets are available on OpenML and tagged with XXX so that the download and usage of these datasets can be automatized. We provide an example with code where we download the datasets and make a little benchmark with some of the standard machine learning algorithms, namely k-nearest neighbors, decision Tree, random forest, support vector machine and  elastic net regression.
+We present a collection of regression datasets that is suitable for performing benchmarks. 
+The datasets are chosen to provide different data scenarios including small and big datasets regarding observations and variables. 
+The datasets are available on OpenML and tagged with XXX so that the download and usage of these datasets can be automatized. 
+We provide an example with code where we download the datasets and make a little benchmark with some of the standard machine learning algorithms, namely k-nearest neighbors, decision tree, random forest, support vector machine and  elastic net regression.
 %boosting?
 }
 
 \section{Introduction}
-Machine learning has become to a widespread and frequently issued part of data science. The comunity of researchers keeps growing and there are many platforms that provide datasets and the possibility to share results which specific methods of machine learning achieved on them. Kaggle, PMLB, UCI and OpenML are probably the most common of them. 
-\newline 
-What the comunity is lacking are so called \texttt{benchmarking suites} which are collections of datasets that are appropriate to test and compare the capabilities of methods of machine learning.
-Papers like \citet{Bischl2017} issued missing benchmarking suites and the authors created one consisting of datasets which have been selected for classification methods of machine learning. \newline 
-It is one of more benchmarking suites for this kind of machine learning problem. \newline 
-On the contrary for other kinds of machine learning problems there aren't that many suites. \newline 
-So it is also for problems of the range of regression. There are many datasets, tasks and results available on the platforms mentioned earlier but no benchmarking suites to compare results of a learner with the results of other learners on several datasets. That's we collected datasets from those platforms and inserted them in a study called XXX on \texttt{OpenML}. 
-At this stage it contains XXX datasets.
+In the last 30 years new methods for supervised learning have evolved very quickly. 
+New methods that are presented, have to prove that they can provide any additional gain to existing methods.
+When claiming performance gains (regarding a performance measure or regarding the runtime), most of the times a benchmark has to be conducted to prove this to the audience. 
+How the datasets for benchmarking are chosen is most of the times obscure and not very clear for the reader (cite XXX (e.g. Do we need hundreds of classifier)). 
+
+There are already some platforms that provide datasets. 
+Kaggle (CITE XXX), PMLB (CITE XXX), UCI (CITE XXX) and OpenML \citep{OpenML2013} are probably the most common and well-known of them. 
+OpenML even provides the possibility to share benchmark results of specific machine learning methods. 
+
+For an unexperienced user it is hard to know which of these datasets are suitable and useful for benchmarking. 
+\citet{Bischl2017} and \citet{Olson2017} made a first step by providing so-called benchmarking suites for classification. 
+(MORE papers?)
+In this paper we want to provide a similar benchmarking suite for regression problems, which does not exist so far to the best of our knowledge (CHECK!). We used already existing datasets from the OpenML platform and from XXX and defined some filter criteria. 
+This lead to a dataset collection of XXX datasets for regression problems.
+
+We make them easily usable and downloadable via the \texttt{OpenML} platform.  
+Afterwards we conduct a benchmark with the common machine learning methods k-nearest neighbors, decision trees, random forest, elastic net and support vector machine in their default version (?). (EVTL TUNING?) 
+This can help to identify which datasets are harder to solve and possibly could provide more insights about the performance of new methods. (MORE OF THIS in Discussion)
+
+%\section{Literature Review}
+%\label{sec:literature}
+  
+%\section{Methods}
+
+\section{The datasets}
+
 For the selection of the datasets we defined hard criterias which are: 
 \begin{enumerate}
 	\item The dataset consists of at least 150 observations 
 	\item The dataset provides at least 4 distinct features 
-	\item The targetFeature consisits of at least 20 distinct numeric values 
+	\item The target feature consists of at least 20 distinct numeric values 
 	\item There are no missing values in the dataset 
 	\item The dataset isn't a subset of or very similar to another dataset 
 	\item The R-Squared calculated during a linear regression didn't reach 1
 \end{enumerate}
-The machine learning methods \texttt{K-nearest neighbors}, \texttt{Decision Tree}, \texttt{Random Forest}, \texttt{Elastic Net Regression} and \texttt{Support Vector Machine} have been executed on those datasets. 
-\newline 
-To compare them for each of them the average R-Squared and the average Kendalls Tau haven been calculated after training the methods with the use of 10-fold crossvalidation.
-\section{Literature Review}
 
-\label{sec:literature}
-  
-Here we cite some literature, e.g. \citet{Bischl2017}.
-The goal of benchmarking can't be seen just as a comparision between different learners of machine learning.
-It could also be seen as a sanity check to confirm a new method succesfully runs as expected and can reliably find simple patterns that existing methods are known to identify as it is mentioned in \citet{Hastie2009}. 
-\newline
-  \citet{Olson2017},
-  \citet{OpenML2013}
+\section{Download}
 
-  
-
-
-\section{Methods}
-
-\section{The datasets}
- 
 \section{A little benchmark}
+
+The goal of benchmarking cannot be seen just as a comparison between different learners of machine learning.
+It could also be seen as a sanity check to confirm a new method succesfully runs as expected and can reliably find simple patterns that existing methods are known to identify as it is mentioned in \citet{Hastie2009}. 
+
+To compare them for each of them the average R-Squared and the average Kendalls Tau haven been calculated after training the methods with the use of 10-fold crossvalidation.
+
 
 <<a, eval=TRUE, echo=TRUE>>=
   a = 1
