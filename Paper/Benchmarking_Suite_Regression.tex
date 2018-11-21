@@ -76,7 +76,7 @@ This can help to identify which datasets are harder to solve and possibly could 
 
 \section{The datasets}
 
-For the selection of the datasets we defined hard criterias which are: 
+For the selection of the datasets we defined hard criteria which are: 
 \begin{enumerate}
 	\item The dataset consists of at least 150 observations 
 	\item The dataset provides at least 4 distinct features 
@@ -85,7 +85,44 @@ For the selection of the datasets we defined hard criterias which are:
 	\item The dataset isn't a subset of or very similar to another dataset 
 	\item The R-Squared calculated during a linear regression didn't reach 1
 \end{enumerate}
+All datasets that are related to a Supervised Regression tasks on \texttt{OpenML} and are in line with the criteria have been inserted into the benchmarking suite. If there where two or more datasets coming from the same origin or having similar targetfeatures only the bigger one according to the number of observations has been selected. The ones that haven't been available on \texttt{OpenML} have been uploaded by us. All datasets have been tagged with the label \texttt{XXX} and those which have been created synthetically additionally with \texttt{artificial}.
 
+\newline 
+PLACEHOLDER TABLE not artificial datasets
+\begin{table}[ht]
+	\centering
+	\begin{tabular}{rlrr}
+		\hline
+		 Name & f & n \\ 
+		\hline
+		 Ailerons &  41 & 13750 \\ 
+		 aloi & 129 & 108000 \\ 
+		 bodyfat &  15 & 252 \\ 
+		 boston &  14 & 506 \\ 
+		 chatfield\_4 &  13 & 235 \\ 
+		 cps\_85\_wages &  11 & 534 \\ 
+		 cpu\_act &  22 & 8192 \\ 
+		 GeographicalOriginalofMusic & 118 & 1059 \\ 
+		 houses &   9 & 20640 \\ 
+		 Kaggle\_bike\_sharing\_demand\_challange &  12 & 10886 \\ 
+		 kin8nm &   9 & 8192 \\ 
+		 lowbwt &  10 & 189 \\ 
+		 machine\_cpu &   7 & 209 \\ 
+		 no2 &   8 & 500 \\ 
+		 plasma\_retinol &  14 & 315 \\ 
+		 rmftsa\_ladata &  11 & 508 \\ 
+		 space\_ga &   7 & 3107 \\ 
+		 stock &  10 & 950 \\ 
+		 strikes &   7 & 625 \\ 
+		 tecator & 125 & 240 \\ 
+		 topo\_2\_1 & 267 & 8885 \\ 
+		 triazines &  61 & 186 \\ 
+		 visualizing\_soil &   5 & 8641 \\ 
+		 wind &  15 & 6574 \\ 
+		 wisconsin &  33 & 194 \\ 
+		\hline
+	\end{tabular}
+\end{table}
 \section{Download}
 
 \section{A little benchmark}
