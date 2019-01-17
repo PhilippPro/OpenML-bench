@@ -20,7 +20,7 @@ to-dos:
 - Bachelorarbeit zu Paper umformen
   - Literatur ergänzen
   - kurzer Codeabschnitt mit Beispiel wie man von OpenML die Datensätze runterlädt
-  - kurze Beschreibung mit Anzahl Variablen, Features, etc. 
+  - kurze Beschreibung mit Anzahl Variablen, Features, Tags (z.B. medical, economical,...), etc. 
   - Benchmark verändern und neu rechnen 
     - Seed setzen!
     - Versionen festhalten mit "checkpoint"-Paket!
