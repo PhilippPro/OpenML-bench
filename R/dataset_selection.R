@@ -577,7 +577,7 @@ selectedTasks[[y+4]] <- AIRBNB
 rdesc <- makeResampleDesc("CV", iters= 10)
 
 #### Definiere Learner regr.IBK (K-nearest Neighbors), regr.ranger (Random Forest), regr.rpart (Decision Tree), regr.glmnet (Elastic Net)
-lrns <- list(makeLearner("regr.IBk"),makeLearner("regr.ranger"),makeLearner("regr.rpart"),makeLearner("regr.glmnet"), makeLearner("regr.liquidSVM"))
+lrns <- list(makeLearner("regr.IBk"),makeLearner("regr.ranger"),makeLearner("regr.rpart"),makeLearner("regr.glmnet"))
 
 ####### Speicher alle bmrs in einer Liste (Guetemasse Kendallstau und Bestimmtheitsmass)
 # dafuer erst alle benchmarks einzeln erstellen und dann an Liste anh?ngen 
@@ -587,6 +587,7 @@ bmrs_neu <- list()
 
 #### Fuege nacheinander die benchmark objekte in die liste ein 
 for(i in seq_along(selectedTasks)) {
+  set.seed(i)
   bmrs_neu[[i]] <- benchmark(lrns, selectedTasks[[i]], rdesc, keep.pred = FALSE, measures = list(kendalltau,mse, rsq))
 }
 

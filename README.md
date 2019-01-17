@@ -10,6 +10,7 @@ to-dos:
 - zusätzliche Datensätze finden
   - insbesondere big data Datensätze; Sammlung sollte möglichst heterogen sein.
   - z.B. Kaggle Datensätze
+  - oder insbesondere hochdimensionale Datensätze, da wir davon noch fast keine haben (mit p > n)
   - evtl. bei Philipp am Institut? genetische Datensätze?
   - Lizenzen der einzelnen Datensätze checken und auf OpenML hochladen
 - Softwareanbindung: 
@@ -20,7 +21,10 @@ to-dos:
   - Literatur ergänzen
   - kurzer Codeabschnitt mit Beispiel wie man von OpenML die Datensätze runterlädt
   - kurze Beschreibung mit Anzahl Variablen, Features, etc. 
-  - Benchmark verändern? 
+  - Benchmark verändern und neu rechnen 
+    - Seed setzen!
+    - Versionen festhalten mit "checkpoint"-Paket!
+    - Weitere (mögliche) Pakete für den "Grund"-Benchmark: kknn (statt ibk?), svm (?), ein boosting-algo (?)
     - Evtl. auto tuning Pakete verwenden, wie z.B. tuneRanger oder autoxgboost
     - h2O-AutoML evtl. noch interessant (evtl. andere autoML Algorithmen?)
     - Welche Maße? Kendall, rsq, Pearson, Spearman?
