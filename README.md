@@ -3,7 +3,7 @@ Benchmarking datasets for regression based on OpenML
 
 
 to-dos:
-
+- Journal bestimmen. Mögliches Journal: Computational Statistics (Vorschlag ALB)
 - Andere Paper/Quellen identifizieren und in der Intro/Literatureteil zitieren (welche haben Klassifikation/Regression/Survival/Clustering Datensätze?)
   - Beispiele für andere Repositories: UCI, OpenML, Kaggle
   - Beispiele für andere benchmarking suites: OpenML100, Penn-ML (Olson et. al), Keel
