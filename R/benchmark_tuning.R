@@ -16,7 +16,7 @@ lrns = list(
   makeLearner("regr.tuneRanger", num.threads = 5, time.budget = 3600),
   makeLearner("regr.autoxgboost", nthread = 5),
   makeLearner("regr.liquidSVM", threads = 5)
-  #
+  # makeLearner("regr.IBk") und RcppHNSW, regr.svm, regr.xgboost
 )
 rdesc <- makeResampleDesc("CV", iters= 5)
 

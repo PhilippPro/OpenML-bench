@@ -457,7 +457,12 @@ save(reg, reg_syn, file = "./data/datasets.RData")
 load("./data/datasets.RData")
 
 tagOMLObject(reg[,1], object = "task", tags = "OpenML-Reg19")
+tagOMLObject(reg_syn[,1], object = "task", tags = "OpenML-Reg19")
+tagOMLObject(reg_syn[,1], object = "task", tags = "synthetic")
 
+tagOMLObject(reg[,3], object = "data", tags = "OpenML-Reg19")
+tagOMLObject(reg_syn[,3], object = "data", tags = "OpenML-Reg19")
+tagOMLObject(reg_syn[,3], object = "data", tags = "synthetic")
 
 ##################################################################################################################################
 #############################################      benchmarken der nicht synthetischen Datensaetze       #########################
@@ -563,6 +568,10 @@ desc = makeOMLDataSetDescription(
 )
 data = makeOMLDataSet(desc, rainfall_bangladesh, target.features = "Rainfall")
 uploadOMLDataSet(data, tags = c("OpenML-Reg19"), description = desc, confirm.upload = TRUE)
+
+library(OpenML)
+uploadOMLTask(task.type = "Supervised Regression", source.data = 41539, target.feature = "Rainfall", 
+  estimation.procedure = 7, tags = c("OpenML-Reg19"), confirm.upload=TRUE)
 
 ## Add Task to the seleceted Tasks list
 selectedTasks[[y+2]] <- rainBangladesh
@@ -890,7 +899,7 @@ bmrs_neu_artificial[[6]] <- bmr_pwLinear
 
 all_measures_neu_artificial <- data.frame("task.id" = character(), "learner.id" = character(), "kendalltau.test.mean" = double(), "mse.test.mean" = double(), "rsq.test.mean" = double())
 
-for (  i in 1:length(bmrs_neu_artificial)){
+for (i in 1:length(bmrs_neu_artificial)){
   all_measures_neu_artificial <- rbind(all_measures_neu_artificial, getBMRAggrPerformances(bmrs_neu_artificial[[i]], as.df = TRUE))
 }
 

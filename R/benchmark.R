@@ -1,24 +1,28 @@
+options(java.parameters = "-XX:+UseG1GC") # Should avoid java gc overhead
+options(java.parameters = "-Xmx16000m")
+
 library(checkpoint)
 library(mlr)
 library(OpenML)
 
 checkpoint("2019-03-01")
 
-ds = listOMLDataSets()
 tasks = listOMLTasks(tag = "OpenML-Reg19")
+ds = listOMLDataSets(tag = "OpenML-Reg19")
 
-tasks = listOMLDataSets(tag = "OpenML-Reg19")
+lrns = list(makeLearner("regr.glmnet"), makeLearner("regr.rpart"), makeLearner("regr.kknn")) #, makeLearner("regr.svm"), makeLearner("regr.ranger"), makeLearner("regr.xgboost"))
+measures = measures = list(mse, mae, medse, medae, rsq, spearmanrho, kendalltau, timetrain)
 
-set.seed(1234)
-
-lrns <- list(makeLearner("regr.glmnet"), makeLearner("regr.IBk"), makeLearner("regr.kknn"), makeLearner("regr.rpart"), makeLearner("regr.ranger"))
-
-
-for(i in 1:nrow(tasks)) {
-  set.seed(123)
+bmr = list()
+for(i in c(1:nrow(tasks))[-28]) {
+  print(i)
+  set.seed(123 + i)
   task = getOMLTask(tasks$task.id[i])
   task = convertOMLTaskToMlr(task)$mlr.task
-  rdesc = makeResampleDesc("CV", iters = 2)
+  #rdesc = makeResampleDesc("CV", iters = 2)
   rdesc = makeResampleDesc("RepCV", reps = 10, folds = 5)
-  bmr[[i]] = benchmark(lrns, task, rdesc)
+  rin = makeResampleInstance(rdesc, task)
+  bmr[[i]] = benchmark(lrns, task, rin, measures = measures, keep.pred = TRUE, models = FALSE)
+  save(bmr, file = "data/bmr.RData")
 }
+

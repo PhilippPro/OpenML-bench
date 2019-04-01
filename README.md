@@ -13,6 +13,7 @@ to-dos:
   - oder insbesondere hochdimensionale Datensätze, da wir davon noch fast keine haben (mit p > n)
   - evtl. bei Philipp am Institut? genetische Datensätze?
   - Lizenzen der einzelnen Datensätze checken und auf OpenML hochladen
+  - Datensatzsammlung erweiterbar machen
 - Softwareanbindung: 
   - Auf OpenML taggen (Datensätze oder Tasks?); Tag oder Study in OpenML? Name?
   - Bernd kontaktieren und passenden Namen für Tag finden

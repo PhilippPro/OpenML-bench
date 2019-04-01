@@ -27,6 +27,19 @@
 \usepackage[round]{natbib}
 \bibliographystyle{abbrvnat}
 
+% R-Code environment
+\usepackage[svgnames]{xcolor}
+\usepackage{listings}
+\lstset{language=R,
+    basicstyle=\small\ttfamily,
+    stringstyle=\color{DarkGreen},
+    otherkeywords={0,1,2,3,4,5,6,7,8,9},
+    morekeywords={TRUE,FALSE},
+    deletekeywords={data,frame,length,as,character},
+    keywordstyle=\color{blue},
+    commentstyle=\color{DarkGreen},
+}
+
 %max number of Figures on one page
 \setcounter{topnumber}{8}
 \setcounter{bottomnumber}{8}
@@ -135,6 +148,47 @@ PLACEHOLDER TABLE not artificial datasets
 \section{Download and usage}
 
 \color{red} Add R code and Python code. \color{black}
+
+Downloading the datasets and corresponding tasks is very easy via R and Python. 
+
+At the beginning we have to adjust some java settings to avoid overhead. The R package \texttt{OpenML} is used to download the informations about the datasets.
+
+\begin{lstlisting}
+options(java.parameters = "-XX:+UseG1GC") # Should avoid java gc overhead
+options(java.parameters = "-Xmx16000m")
+
+library(OpenML)
+
+tasks = listOMLTasks(tag = "OpenML-Reg19")
+ds = listOMLDataSets(tag = "OpenML-Reg19")
+\end{lstlisting}
+
+After having downloaded them it is very easy to make a benchmark with the help of the \texttt{mlr} R package. 
+The \texttt{checkpoint} R package ensures, that we use the same version of the packages. 
+Below we benchmark the three different machine learning algorithms elastic net (\texttt{glmnet} R package), a decision tree (\texttt{rpart}) and k-nearest neighbor (\texttt{kknn}) via 2-times repeated 5-fold cross-validation and save it in one list. 
+
+\begin{lstlisting}
+library(checkpoint)
+checkpoint("2019-03-01")
+
+library(mlr)
+lrns = list(
+  makeLearner("regr.glmnet"), makeLearner("regr.rpart"), makeLearner("regr.kknn")
+) 
+measures = list(mse, mae, medse, medae, rsq, spearmanrho, kendalltau, timetrain)
+
+bmr = list()
+for(i in c(1:nrow(tasks))[-28]) {
+  print(i)
+  set.seed(123 + i)
+  task = getOMLTask(tasks$task.id[i])
+  task = convertOMLTaskToMlr(task)$mlr.task
+  rdesc = makeResampleDesc("RepCV", reps = 2, folds = 5)
+  rin = makeResampleInstance(rdesc, task)
+  bmr[[i]] = benchmark(lrns, task, rin, measures = measures, models = FALSE)
+}
+\end{lstlisting}
+
 
 \section{A little benchmark}
 
