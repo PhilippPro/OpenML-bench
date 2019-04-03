@@ -109,41 +109,27 @@ All datasets that are related to a Supervised Regression tasks on \texttt{OpenML
 \color{red} Add a sentence, that we manually looked over the datasets by at least looking at the header... \color{black}
 \color{red} Fill up the table: add a column for tag/topics?, add a column for artificial yes/no (or put it below), maybe add some other (meta-)features (e.g. missing values etc.). Sort by the number of observations or by topic? Show code for creating this table for users in the code section below (so that users can possibly subset the datasets easily). \color{black} 
 \newline 
-PLACEHOLDER TABLE not artificial datasets
-\begin{table}[ht]
-	\centering
-	\begin{tabular}{rlrr}
-		\hline
-		 Name & f & n \\ 
-		\hline
-		 Ailerons &  41 & 13750 \\ 
-		 aloi & 129 & 108000 \\ 
-		 bodyfat &  15 & 252 \\ 
-		 boston &  14 & 506 \\ 
-		 chatfield\_4 &  13 & 235 \\ 
-		 cps\_85\_wages &  11 & 534 \\ 
-		 cpu\_act &  22 & 8192 \\ 
-		 GeographicalOriginalofMusic & 118 & 1059 \\ 
-		 houses &   9 & 20640 \\ 
-		 Kaggle\_bike\_sharing\_demand\_challange &  12 & 10886 \\ 
-		 kin8nm &   9 & 8192 \\ 
-		 lowbwt &  10 & 189 \\ 
-		 machine\_cpu &   7 & 209 \\ 
-		 no2 &   8 & 500 \\ 
-		 plasma\_retinol &  14 & 315 \\ 
-		 rmftsa\_ladata &  11 & 508 \\ 
-		 space\_ga &   7 & 3107 \\ 
-		 stock &  10 & 950 \\ 
-		 strikes &   7 & 625 \\ 
-		 tecator & 125 & 240 \\ 
-		 topo\_2\_1 & 267 & 8885 \\ 
-		 triazines &  61 & 186 \\ 
-		 visualizing\_soil &   5 & 8641 \\ 
-		 wind &  15 & 6574 \\ 
-		 wisconsin &  33 & 194 \\ 
-		\hline
-	\end{tabular}
-\end{table}
+
+
+<<dataset_description, echo = FALSE, results="asis",  fig.pos='htb!' , message = FALSE, fig.lp="fig:">>=
+library(OpenML)
+library(xtable)
+tasks = listOMLTasks(tag = "OpenML-Reg19")
+synth = listOMLTasks(tag = "synthetic")
+tasks$synthetic = tasks$data.id %in% synth$data.id
+tasks = tasks[order(tasks$number.of.instances), ]
+tasks = tasks[order(tasks$synthetic), ]
+tasks$synthetic = ifelse(tasks$synthetic, "yes", "no")
+tasks = tasks[,c("data.id", "name", "number.of.instances", "number.of.features", "synthetic")]
+colnames(tasks) = c("Data Id", "Name", "$n$", "$p$", "Artificial")
+
+print(xtable(tasks, caption = "Datasets for regression tasks. $n$ denotes the number of observations and $p$ the number of variables. The column \\textit{Artificial} describes if the dataset was created artificially.", digits = 0, label = "tab:datasets"), include.rownames=FALSE
+  ,sanitize.text.function=function(x){gsub("_", "\\_",x, fixed = TRUE)})# , hline.after = c(0, cumsum(index)))
+@
+
+\color{red}
+Include some high dimensional datasets??
+\color{black}
 
 \section{Download and usage}
 
@@ -153,7 +139,8 @@ Downloading the datasets and corresponding tasks is very easy via R and Python.
 
 At the beginning we have to adjust some java settings to avoid overhead. The R package \texttt{OpenML} is used to download the informations about the datasets.
 
-\begin{lstlisting}
+
+<<a, eval=FALSE, echo=TRUE>>=
 options(java.parameters = "-XX:+UseG1GC") # Should avoid java gc overhead
 options(java.parameters = "-Xmx16000m")
 
@@ -161,13 +148,13 @@ library(OpenML)
 
 tasks = listOMLTasks(tag = "OpenML-Reg19")
 ds = listOMLDataSets(tag = "OpenML-Reg19")
-\end{lstlisting}
+@
 
 After having downloaded them it is very easy to make a benchmark with the help of the \texttt{mlr} R package. 
 The \texttt{checkpoint} R package ensures, that we use the same version of the packages. 
 Below we benchmark the three different machine learning algorithms elastic net (\texttt{glmnet} R package), a decision tree (\texttt{rpart}) and k-nearest neighbor (\texttt{kknn}) via 2-times repeated 5-fold cross-validation and save it in one list. 
 
-\begin{lstlisting}
+<<b, eval=FALSE, echo=TRUE>>=
 library(checkpoint)
 checkpoint("2019-03-01")
 
@@ -187,7 +174,7 @@ for(i in c(1:nrow(tasks))[-28]) {
   rin = makeResampleInstance(rdesc, task)
   bmr[[i]] = benchmark(lrns, task, rin, measures = measures, models = FALSE)
 }
-\end{lstlisting}
+@
 
 
 \section{A little benchmark}
