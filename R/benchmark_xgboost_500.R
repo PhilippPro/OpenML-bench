@@ -1,7 +1,4 @@
 
-# make it easy to add new learners to the benchmark!
-# include lightgbm
-
 options(java.parameters = "-Xmx16000m") # should avoid java gc overhead
 
 library(OpenML)
@@ -21,7 +18,7 @@ lrns = list(
 )
 
 
-rdesc <- makeResampleDesc("CV", iters= 5)
+rdesc <- makeResampleDesc("RepCV", reps=10, folds=5)
 
 for(i in c(1:nrow(reg))[-c(2,28)]) {
   print(i)
@@ -109,12 +106,12 @@ plot_results = function(j, log = FALSE, ylab = NULL, legend.pos = NULL, ylim = c
   if(is.null(legend.pos))
     legend.pos = "topleft"
   if(log) {
-    plot(ranger_res[,1], type = "l", xlab = paste("Datasets ordered by", ylab, "of xgboost_def"), ylab = ylab, log = "y", lwd = 2, lty = 2, ylim = range(ranger_res))
+    plot(ranger_res[,1], type = "l", xlab = paste("Datasets ordered by", ylab, "of xgboost_default"), ylab = ylab, log = "y", lwd = 2, lty = 2, ylim = range(ranger_res))
   } else {
-    plot(ranger_res[,1], type = "l", xlab = paste("Datasets ordered by", ylab, "of xgboost_def"), ylab = ylab, ylim = ylim, lwd = 2, lty = 2)
+    plot(ranger_res[,1], type = "l", xlab = paste("Datasets ordered by", ylab, "of xgboost_default"), ylab = ylab, ylim = ylim, lwd = 2, lty = 2)
   }
   lines(ranger_res[,2], col = "red", lwd = 2)
-  legend(legend.pos, legend = lrn.names, col = c("black", "red"), lwd = c(2,2), lty = c(2,1))
+  legend(legend.pos, legend = c("xgboost_old_default", "xgboost_my_default"), col = c("black", "red"), lwd = c(2,2), lty = c(2,1))
 }
 
 plot_results(5, ylab = "R-Squared")
@@ -130,7 +127,17 @@ par(mar = c(4, 4, 1, 2) + 0.1)
 plot_results(5, ylab = "R-Squared")
 dev.off()
 
+png("./figure/xgboost_500_rsq_results.png")
+par(mar = c(4, 4, 1, 2) + 0.1)
+plot_results(5, ylab = "R-Squared")
+dev.off()
+
 pdf("./figure/xgboost_500_spearman_results.pdf", height = 4)
+par(mar = c(4, 4, 1, 2) + 0.1)
+plot_results(6, ylab = "Spearman-Rho", ylim = c(0,1))
+dev.off()
+
+png("./figure/xgboost_500_spearman_results.png")
 par(mar = c(4, 4, 1, 2) + 0.1)
 plot_results(6, ylab = "Spearman-Rho", ylim = c(0,1))
 dev.off()
@@ -139,4 +146,11 @@ pdf("./figure/xgboost_500_time_results.pdf", height = 4)
 par(mar = c(4, 4, 1, 2) + 0.1)
 plot_results(8, ylab = "Training time in seconds", legend.pos = "bottomright", log = TRUE)
 dev.off()
+
+png("./figure/xgboost_500_time_results.png")
+par(mar = c(4, 4, 1, 2) + 0.1)
+plot_results(8, ylab = "Training time in seconds", legend.pos = "bottomright", log = TRUE)
+dev.off()
+
+
 
