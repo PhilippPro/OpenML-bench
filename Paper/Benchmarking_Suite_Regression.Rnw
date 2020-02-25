@@ -1,0 +1,198 @@
+\documentclass[a4paper]{article}
+
+\usepackage[a4paper,%
+            left=0.5in,right=0.5in,top=1in,bottom=1in]{geometry}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsthm,amsmath,amssymb,amstext}
+\usepackage{booktabs}
+\usepackage{array}
+
+\usepackage{nicefrac}
+\usepackage{caption}
+\usepackage{tabularx}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{lscape}
+\usepackage{placeins}
+\usepackage{colortbl}
+\usepackage{dsfont}
+\usepackage{multirow}
+\usepackage{listings}
+\usepackage{adjustbox}
+\usepackage{setspace}
+\onehalfspacing
+\usepackage{url}
+\usepackage[round]{natbib}
+\bibliographystyle{abbrvnat}
+
+% R-Code environment
+\usepackage[svgnames]{xcolor}
+\usepackage{listings}
+\lstset{language=R,
+    basicstyle=\small\ttfamily,
+    stringstyle=\color{DarkGreen},
+    otherkeywords={0,1,2,3,4,5,6,7,8,9},
+    morekeywords={TRUE,FALSE},
+    deletekeywords={data,frame,length,as,character},
+    keywordstyle=\color{blue},
+    commentstyle=\color{DarkGreen},
+}
+
+%max number of Figures on one page
+\setcounter{topnumber}{8}
+\setcounter{bottomnumber}{8}
+\setcounter{totalnumber}{8}
+
+%% load any required packages here
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\begin{document}
+
+\title{Regression Benchmark Datasets on OpenML}
+
+\author{by Merlin Raabe and Philipp Probst}
+
+\maketitle
+\abstract{
+We present a collection of regression datasets that is suitable for performing benchmarks. 
+The datasets are chosen to provide different data scenarios including small and big datasets regarding observations and variables. 
+The datasets are available on OpenML and tagged with XXX so that the download and usage of these datasets can be automatized. 
+We provide an example with code where we download the datasets and make a little benchmark with some of the standard machine learning algorithms, namely k-nearest neighbors, decision tree, random forest, support vector machine and  elastic net regression.
+%boosting?
+}
+
+\color{red} change title to, e.g.: "Datasets for regression benchmarking on OpenML" ? \color{black}
+
+\section{Introduction}
+In the last 30 years new methods for supervised learning have evolved very quickly. 
+New methods that are presented, have to prove that they can provide any additional gain to existing methods.
+When claiming performance gains (regarding a performance measure or regarding the runtime), most of the times a benchmark has to be conducted to prove this to the audience. 
+How the datasets for benchmarking are chosen is most of the times obscure and not very clear for the reader (cite XXX (e.g. Do we need hundreds of classifier)). 
+
+There are already some platforms that provide freely available datasets. 
+Kaggle (CITE XXX), PMLB (CITE XXX), UCI (CITE XXX) and OpenML \citep{OpenML2013} are probably the most common and well-known of them. 
+OpenML even provides the possibility to share benchmark results of specific machine learning methods. 
+
+For an unexperienced user it is hard to know which of these datasets are suitable and useful for benchmarking. 
+\citet{Bischl2017} and \citet{Olson2017} made a first step by providing so-called benchmarking suites for classification. 
+(MORE papers?)
+In this paper we want to provide a similar benchmarking suite for regression problems, which does not exist so far to the best of our knowledge (CHECK!). \color{red} PennML also has some regression datasets now. Explain the difference to their suite, and why we are better and/or different. \color{black} We used already existing datasets from the OpenML platform and from XXX and defined some filter criteria. 
+This lead to a dataset collection of XXX datasets for regression problems.
+
+We make them easily usable and downloadable via the \texttt{OpenML} platform.  
+Afterwards we conduct a benchmark with the common machine learning methods k-nearest neighbors, decision trees, random forest, elastic net and support vector machine in their default version (?). \color{red} PP: Also include the tuning algorithms benchmark \color{black}
+This can help to identify which datasets are harder to solve and possibly could provide more insights about the performance of new methods. (MORE OF THIS in Discussion)
+
+%\section{Literature Review}
+%\label{sec:literature}
+  
+%\section{Methods}
+
+\section{The datasets}
+
+For the selection of the datasets we defined hard criteria which are: 
+\begin{enumerate}
+	\item The dataset consists of at least 150 observations 
+	\item The dataset provides at least 4 distinct features 
+	\item The target feature consists of at least 20 distinct numeric values 
+	\item There are no missing values in the dataset 
+	\item The dataset isn't a subset of or very similar to another dataset also included in the selection
+	\item The R-Squared calculated during a linear regression didn't reach 1
+\end{enumerate}
+
+\color{red}
+PP: Maybe add some explanation, why this criteria were chosen... How should our benchmarking suite look like, what is the final purpose? 
+\color{black}
+
+All datasets that are related to a Supervised Regression tasks on \texttt{OpenML} and are in line with the criteria have been inserted into the benchmarking suite. If there where two or more datasets coming from the same origin or having similar targetfeatures only the bigger one according to the number of observations has been selected. The ones that haven't been available on \texttt{OpenML} have been uploaded by us. All datasets have been tagged with the label \texttt{XXX} on OpenML and the synthetically created ones additionally with the label \texttt{artificial}. 
+\color{red} Add a sentence, that we manually looked over the datasets by at least looking at the header... \color{black}
+\color{red} Fill up the table: add a column for tag/topics?, add a column for artificial yes/no (or put it below), maybe add some other (meta-)features (e.g. missing values etc.). Sort by the number of observations or by topic? Show code for creating this table for users in the code section below (so that users can possibly subset the datasets easily). \color{black} 
+\newline 
+
+
+<<dataset_description, echo = FALSE, results="asis",  fig.pos='htb!' , message = FALSE, fig.lp="fig:">>=
+library(OpenML)
+library(xtable)
+tasks = listOMLTasks(tag = "OpenML-Reg19")
+synth = listOMLTasks(tag = "synthetic")
+tasks$synthetic = tasks$data.id %in% synth$data.id
+tasks = tasks[order(tasks$number.of.instances), ]
+tasks = tasks[order(tasks$synthetic), ]
+tasks$synthetic = ifelse(tasks$synthetic, "yes", "no")
+tasks = tasks[,c("data.id", "name", "number.of.instances", "number.of.features", "synthetic")]
+colnames(tasks) = c("Data Id", "Name", "$n$", "$p$", "Artificial")
+
+print(xtable(tasks, caption = "Datasets for regression tasks. $n$ denotes the number of observations and $p$ the number of variables. The column \\textit{Artificial} describes if the dataset was created artificially.", digits = 0, label = "tab:datasets"), include.rownames=FALSE
+  ,sanitize.text.function=function(x){gsub("_", "\\_",x, fixed = TRUE)})# , hline.after = c(0, cumsum(index)))
+@
+
+\color{red}
+Include some high dimensional datasets??
+\color{black}
+
+\section{Download and usage}
+
+\color{red} Add R code and Python code. \color{black}
+
+Downloading the datasets and corresponding tasks is very easy via R and Python. 
+
+At the beginning we have to adjust some java settings to avoid overhead. The R package \texttt{OpenML} is used to download the informations about the datasets.
+
+
+<<a, eval=FALSE, echo=TRUE>>=
+options(java.parameters = "-XX:+UseG1GC") # Should avoid java gc overhead
+options(java.parameters = "-Xmx16000m")
+
+library(OpenML)
+
+tasks = listOMLTasks(tag = "OpenML-Reg19")
+ds = listOMLDataSets(tag = "OpenML-Reg19")
+@
+
+After having downloaded them it is very easy to make a benchmark with the help of the \texttt{mlr} R package. 
+The \texttt{checkpoint} R package ensures, that we use the same version of the packages. 
+Below we benchmark the three different machine learning algorithms elastic net (\texttt{glmnet} R package), a decision tree (\texttt{rpart}) and k-nearest neighbor (\texttt{kknn}) via 2-times repeated 5-fold cross-validation and save it in one list. 
+
+<<b, eval=FALSE, echo=TRUE>>=
+library(checkpoint)
+checkpoint("2019-03-01")
+
+library(mlr)
+lrns = list(
+  makeLearner("regr.glmnet"), makeLearner("regr.rpart"), makeLearner("regr.kknn")
+) 
+measures = list(mse, mae, medse, medae, rsq, spearmanrho, kendalltau, timetrain)
+
+bmr = list()
+for(i in c(1:nrow(tasks))[-28]) {
+  print(i)
+  set.seed(123 + i)
+  task = getOMLTask(tasks$task.id[i])
+  task = convertOMLTaskToMlr(task)$mlr.task
+  rdesc = makeResampleDesc("RepCV", reps = 2, folds = 5)
+  rin = makeResampleInstance(rdesc, task)
+  bmr[[i]] = benchmark(lrns, task, rin, measures = measures, models = FALSE)
+}
+@
+
+
+\section{A little benchmark}
+
+\color{red} This is theory and maybe should be mentioned earlier. In this section only provide the structure of the benchmark and the results. \color{black}
+
+The goal of benchmarking cannot be seen just as a comparison between different learners of machine learning.
+It could also be seen as a sanity check to confirm a new method succesfully runs as expected and can reliably find simple patterns that existing methods are known to identify as it is mentioned in \citet{Hastie2009}. 
+
+\color{red} Moreover it is a check of the dataset... \color{black}
+
+To compare them for each of them the average R-Squared and the average Kendall's Tau haven been calculated after training the methods by using the resampling strategy 10-fold crossvalidation. \color{red} Maybe add reference for these measures. Include more measures? e.g. speed, spearman, ...\color{black}
+
+\section{Conclusion and Discussion}
+\label{sec:conclusion}
+
+\FloatBarrier
+
+\bibliography{arxiv}
+
+\end{document}

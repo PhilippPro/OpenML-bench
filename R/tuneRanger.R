@@ -4,8 +4,25 @@ library(OpenML)
 # devtools::install_github("mlr-org/mlr")
 library(mlr)
 library(tuneRanger)
-# devtools::install_github("ja-thomas/autoxgboost")
+# devtools::install_github("ja-thomas/autoxgboost", dependencies = FALSE)
 library(autoxgboost)
+
+# Das hier ist leider auch schlecht (nicht immer besser als autoxgbparset). 
+# Liegt wohl an der Implementation von autoxgboost und nicht unbedingt an den Hyperparameter Settings. 
+my_xgb = makeParamSet(
+   # makeIntegerParam("nrounds", lower = 800, upper = 5000), 
+    makeNumericParam("eta", lower = -9, upper = -1, trafo = function(x) 2^x),
+    makeNumericParam("subsample",lower = 0.45, upper = 0.96),
+    makeDiscreteParam("booster", values = c("gbtree", "gblinear")),
+    makeIntegerParam("max_depth", lower = 2, upper = 15, requires = quote(booster == "gbtree")),
+    makeNumericParam("min_child_weight", lower = 1, upper = 7, requires = quote(booster == "gbtree")),
+    makeNumericParam("colsample_bytree", lower = 0.4, upper = 0.9, requires = quote(booster == "gbtree")),
+    makeNumericParam("colsample_bylevel", lower = 0.3, upper = 0.9, requires = quote(booster == "gbtree")),
+    makeNumericParam("lambda", lower = -8, upper = 5, trafo = function(x) 2^x),
+    makeNumericParam("alpha", lower = -9, upper = 3, trafo = function(x) 2^x)
+)
+
+#autoxgbparset
 
 load("./data/datasets.RData")
 reg = rbind(reg, reg_syn)
@@ -15,17 +32,19 @@ lrns = list(
   makeLearner("regr.ranger", num.trees = 500, num.threads = 5),
   makeLearner("regr.tuneRanger", num.threads = 5, time.budget = 3600),
   makeLearner("regr.autoxgboost", nthread = 5),
-  makeLearner("regr.liquidSVM", threads = 5)
-  # makeLearner("regr.IBk") und RcppHNSW, regr.svm, regr.xgboost
+  makeLearner("regr.liquidSVM", threads = 5),
+  makeLearner("regr.autoxgboost", id = "myxgb", nthread = 5, par.set = my_xgb)#, max.nrounds = 5000)
 )
 rdesc <- makeResampleDesc("CV", iters= 5)
+
+# bei 2 stürzt autoxgboost ab
 
 for(i in c(1:nrow(reg))[-c(2,28)]) {
   print(i)
   task <- convertOMLTaskToMlr(getOMLTask(task.id = reg$task.id[i]))$mlr.task
   set.seed(i + 321)
-  bmr_tune[[i]] <- benchmark(lrns, task, rdesc, keep.pred = FALSE, models = FALSE, measures = list(mse, mae, medse, medae, rsq, spearmanrho, kendalltau, timetrain))
-  save(bmr_tune, file = "./data/bmr_tune.RData")
+  bmr_myxgb[[i]] <- benchmark(lrns, task, rdesc, keep.pred = FALSE, models = FALSE, measures = list(mse, mae, medse, medae, rsq, spearmanrho, kendalltau, timetrain))
+  save(bmr_myxgb, file = "./data/bmr_myxgb.RData")
 }
 
 load("./data/bmr_tune.RData")
@@ -49,6 +68,8 @@ load("./data/bmr_tune.RData")
 #     }
 #   }
 # }
+
+
 
 
 

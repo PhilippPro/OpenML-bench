@@ -454,6 +454,16 @@ dim(reg_syn)
 
 save(reg, reg_syn, file = "./data/datasets.RData")
 
+load("./data/datasets.RData")
+
+tagOMLObject(reg[,1], object = "task", tags = "OpenML-Reg19")
+tagOMLObject(reg_syn[,1], object = "task", tags = "OpenML-Reg19")
+tagOMLObject(reg_syn[,1], object = "task", tags = "synthetic")
+
+tagOMLObject(reg[,3], object = "data", tags = "OpenML-Reg19")
+tagOMLObject(reg_syn[,3], object = "data", tags = "OpenML-Reg19")
+tagOMLObject(reg_syn[,3], object = "data", tags = "synthetic")
+
 ##################################################################################################################################
 #############################################      benchmarken der nicht synthetischen Datensaetze       #########################
 ##################################################################################################################################
@@ -506,8 +516,12 @@ revalue(Titanic_data$Embarked, c("0" ="Cherbourg", "1"="Queenstown", "2" = "Sout
 
 ### Create MLR TASK
 Titanic <- makeRegrTask(id="Titanic", data = Titanic_data, target = "Fare")
+
 ### Add Task to selectedTasks 
 selectedTasks[[y+1]] <- Titanic
+
+## Add tag to OpenML
+tagOMLObject(41265, object = "data", tags = "OpenML-Reg19")
 
 ##################################################################################################
 #########  Monthly Data Rainfall Bangladesh ######################################################
@@ -539,6 +553,26 @@ levels(rainfallBangladesh_data$Month)
 ## make MLR Regression Task
 rainBangladesh <- makeRegrTask(id="Rainfall_Bangladesh", data = rainfallBangladesh_data, target = "Rainfall" )
 
+### Upload to OpenML
+rainfall_bangladesh = rainfallBangladesh_data
+desc = makeOMLDataSetDescription(
+  name = "rainfall_bangladesh",
+  description = "Historical Rainfall data of Bangladesh",
+  creator = "Yousuf Zaman",
+  collection.date = "1970-2016",
+  language = "English",
+  licence = "CC0 1.0",
+  url = "https://www.kaggle.com/redikod/historical-rainfall-data-in-bangladesh",
+  default.target.attribute = "Rainfall",
+  tags = "OpenML-Reg19"
+)
+data = makeOMLDataSet(desc, rainfall_bangladesh, target.features = "Rainfall")
+uploadOMLDataSet(data, tags = c("OpenML-Reg19"), description = desc, confirm.upload = TRUE)
+
+library(OpenML)
+uploadOMLTask(task.type = "Supervised Regression", source.data = 41539, target.feature = "Rainfall", 
+  estimation.procedure = 7, tags = c("OpenML-Reg19"), confirm.upload=TRUE)
+
 ## Add Task to the seleceted Tasks list
 selectedTasks[[y+2]] <- rainBangladesh
 
@@ -557,6 +591,23 @@ nrow(regrAkshith_data)
 regrAkshith <- makeRegrTask(id="Regression Akshith", data = regrAkshith_data, target = "Purchase" )
 selectedTasks[[y+3]] <- regrAkshith
 
+### Upload to OpenML
+black_friday = regrAkshith_data
+desc = makeOMLDataSetDescription(
+  name = "black_friday",
+  description = "Customer purchases on Black Friday",
+  creator = "analyticsvidhya",
+  collection.date = "2015",
+  language = "English",
+  licence = "GPL-1",
+  url = "https://datahack.analyticsvidhya.com/contest/black-friday-data-hack/",
+  default.target.attribute = "Purchase",
+  tags = "OpenML-Reg19"
+)
+
+data = makeOMLDataSet(desc, black_friday, target.features = "Purchase")
+uploadOMLDataSet(data, tags = c("OpenML-Reg19"), description = desc, confirm.upload = TRUE)
+
 ###############################################################################################################################################################################################################
 ##################################################################### AIRBNB #####################################################################
 ###############################################################################################################################################################################################################
@@ -569,6 +620,23 @@ AIRBNB_data <- AIRBNB_data[,-c(1,15,17)]
 ##### Create Regression Task for MLR 
 AIRBNB <- makeRegrTask(id="AIRBNB logPrice", data=AIRBNB_data, target = "log_price")
 selectedTasks[[y+4]] <- AIRBNB
+
+### Upload to OpenML
+airbnb = AIRBNB_data
+desc = makeOMLDataSetDescription(
+  name = "airbnb",
+  description = "Use renter information, property characteristics and reviews to predict rental price.",
+  creator = "Steve Zheng",
+  collection.date = "2018",
+  language = "English",
+  licence = "GPL-1",
+  url = "https://www.kaggle.com/stevezhenghp/airbnb-price-prediction",
+  default.target.attribute = "log_price",
+  tags = "OpenML-Reg19"
+)
+
+data = makeOMLDataSet(desc, airbnb, target.features = "log_price")
+uploadOMLDataSet(data, tags = c("OpenML-Reg19"), description = desc, confirm.upload = TRUE)
 
 ###################################################################################################################################################
 #### Definiere Resampling Methode 10-fold Kreuzvalidierung 
@@ -831,7 +899,7 @@ bmrs_neu_artificial[[6]] <- bmr_pwLinear
 
 all_measures_neu_artificial <- data.frame("task.id" = character(), "learner.id" = character(), "kendalltau.test.mean" = double(), "mse.test.mean" = double(), "rsq.test.mean" = double())
 
-for (  i in 1:length(bmrs_neu_artificial)){
+for (i in 1:length(bmrs_neu_artificial)){
   all_measures_neu_artificial <- rbind(all_measures_neu_artificial, getBMRAggrPerformances(bmrs_neu_artificial[[i]], as.df = TRUE))
 }
 
