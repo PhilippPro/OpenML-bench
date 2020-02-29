@@ -14,7 +14,8 @@ makeRLearner.classif.catboost <- function() {
       makeNumericLearnerParam(id = "iterations", lower = 1, upper = Inf, default = 1000),
       makeNumericLearnerParam(id = "l2_leaf_reg", lower = 1, upper = Inf, default = 3),
       makeNumericLearnerParam(id = "rsm", lower = 0.001, upper = 1, default = 1),
-      makeNumericLearnerParam(id = "border_count", lower = 1, upper = 255, default = 254)
+      makeNumericLearnerParam(id = "border_count", lower = 1, upper = 255, default = 254),
+      makeIntegerLearnerParam(id = "thread_count", lower = 1, upper = Inf, default = 1)
     ),
     properties = c("twoclass", "multiclass", "numerics", "factors", "prob"),
     name = "CatBoost",
@@ -65,6 +66,10 @@ makeRLearner.regr.catboost <- function() {
     cl = "regr.catboost",
     package = "catboost",
     par.set = makeParamSet(
+      makeNumericLearnerParam(id = "depth", lower = 1, upper = 16, default = 6),
+      makeNumericLearnerParam(id = "learning_rate", lower = 0.001, upper = 1, default = 0.03),
+      makeNumericLearnerParam(id = "iterations", lower = 1, upper = Inf, default = 1000),
+      makeIntegerLearnerParam(id = "thread_count", lower = 1, upper = Inf, default = 1)
     ),
     properties = c('numerics','factors','ordered'),
     name = "CatBoost",
