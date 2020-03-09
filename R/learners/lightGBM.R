@@ -17,6 +17,7 @@
 
 library(mlr)
 library(BBmisc)
+library(lightgbm)
 
 ## Define learner
 makeRLearner.classif.lightgbm = function() {

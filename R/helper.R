@@ -1,34 +1,7 @@
-library(mlr)
-
-extractResults = function(bmr) {
-  nr.learners = length(bmr[[1]]$learners)
-  nr.measures = length(bmr[[1]]$measures)
-  bmr[[2]] = NULL
-  bmr[[27]] = NULL
-  
-  res = list()
-  res[[1]] = data.frame(getBMRAggrPerformances(bmr[[1]]))
-  
-  for(i in 1:length(bmr)) {
-    if(!is.null(bmr[[i]])) {
-      res[[i]] = data.frame(getBMRAggrPerformances(bmr[[i]]))
-      for(j in 1:nr.learners) {
-        #print(paste(i,j))
-        for(k in 1:8) {
-          if(is.na(res[[i]][k,j])) {
-            if(k %in% c(1:4, 8)) {
-              res[[i]][k,j] = max(res[[i]][k,], na.rm = T)
-            } else {
-              res[[i]][k,j] = min(res[[i]][k,], na.rm = T)
-            }
-          }
-        }
-      }
-    }
-  }
-  return(res)
+extractResults = function(filename) {
+  load(paste0("./data/benchmark/", filename))
+  return(bmr)
 }
-
 
 mergeResults = function(res_1, res_2) {
   if(length(res_1) != length(res_2))
@@ -42,7 +15,7 @@ mergeResults = function(res_1, res_2) {
 }
 
 
-evaluateResults = function(res) {
+evaluateResults = function(res, columns=c(5,6)) {
   nr.learners = ncol(res[[1]])
   for(i in 1:length(res)) {
     if(i == 1) {
@@ -71,29 +44,32 @@ evaluateResults = function(res) {
 
 excludeResults = function(res, excl_column) {
   for(i in 1:length(res))
-    res[[i]] = res[[i]][,-excl_column]
+    res[[i]] = res[[i]][,-excl_column, drop = FALSE]
   return(res)
 }
 
 
-plotResults = function(res, j, log = FALSE, ylab = NULL, legend.pos = NULL) {
+plotResults = function(res, j, log = FALSE, ylab = NULL, legend.pos = NULL, ylim = NULL) {
   nr.learners = ncol(res[[1]])
   nr.datasets = length(res)
   lrn.names = sub('.*\\.', '', colnames(res[[1]]))
   res_ordered = matrix(NA, nr.datasets, nr.learners)
-  res_ordered[1, ] = as.numeric(res[[1]][j, ])
+  res_ordered[1, ] = as.numeric(res[[1]][j, ,drop = FALSE])
   for(i in 1:nr.datasets)
     res_ordered[i, ] = as.numeric(res[[i]][j, ])
   
-  res_ordered = res_ordered[order(res_ordered[,1]),]
+  res_ordered = res_ordered[order(res_ordered[,1]),, drop = FALSE]
   if(is.null(ylab))
     ylab = sub("\\..*", "", rownames(res[[1]])[j])
   if(is.null(legend.pos))
     legend.pos = "topleft"
+  
+  if(is.null(ylim))
+    ylim = c(min(min(res_ordered),0),max(max(res_ordered),1))
   if(log) {
     plot(res_ordered[,1], type = "l", xlab = paste("Datasets ordered by", ylab, "of ranger"), ylab = ylab, log = "y", lwd = 2, lty = 2, ylim = range(res_ordered))
   } else {
-    plot(res_ordered[,1], type = "l", xlab = paste("Datasets ordered by", ylab, "of ranger"), ylab = ylab, ylim = c(min(min(res_ordered),0),1), lwd = 2, lty = 2)
+    plot(res_ordered[,1], type = "l", xlab = paste("Datasets ordered by", ylab, "of ranger"), ylab = ylab, ylim = ylim, lwd = 2, lty = 2)
   }
   for(i in 2:nr.learners)
     lines(res_ordered[,i], col = i, lwd = 2)
