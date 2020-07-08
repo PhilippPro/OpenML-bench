@@ -67,17 +67,17 @@ plotResults(res, 8, ylab = "Training time in seconds", log = TRUE, legend.pos = 
 dev.off()
 
 # For the blog
-png("./figure/rsq_results.png", height = 400)
+png("./figure/rsq_results.png", height = 400, width = 600)
 par(mar = c(4, 4, 1, 2) + 0.1)
 plotResults(res, 5, ylab = "R-Squared", legend.pos = "bottomright")
 dev.off()
 
-png("./figure/spearman_results.png", height = 400)
+png("./figure/spearman_results.png", height = 400, width = 600)
 par(mar = c(4, 4, 1, 2) + 0.1)
 plotResults(res, 6, ylab = "Spearman-Rho", ylim = c(0,1), legend.pos = "bottomright")
 dev.off()
 
-png("./figure/time_results.png", height = 400)
+png("./figure/time_results.png", height = 400, width = 600)
 par(mar = c(4, 4, 1, 2) + 0.1)
 plotResults(res, 8, ylab = "Training time in seconds", log = TRUE, legend.pos = "bottomright")
 dev.off()
