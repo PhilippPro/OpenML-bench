@@ -24,6 +24,7 @@ lrns = list(
 lrns[[5]]$id = "xgboost_def"
 lrns[[6]]$id = "xgboost_best"
 
+library(OpenML)
 tasks = listOMLTasks(tag = "OpenML-Reg19")
 tasks = tasks[!(tasks$name %in% c("aloi", "BNG(satellite_image)", "black_friday")),] # black_friday später hinzunehmen
 
@@ -43,26 +44,42 @@ evaluateResults(res)
 
 res = excludeResults(res, 3)
 
-plotResults(res, 5, ylab = "R-Squared")
-plotResults(res, 6, ylab = "Spearman-Rho", ylim = c(0,1))
-plotResults(res, 7, legend.pos = "bottomright", ylim = c(0,1))
-plotResults(res, 8, log = TRUE, legend.pos = "bottomright")
+plotResults(res, 5, ylab = "R-Squared", legend.pos = "bottomright")
+plotResults(res, 6, ylab = "Spearman-Rho", ylim = c(0,1), legend.pos = "bottomright")
+plotResults(res, 7, ylim = c(0,1), legend.pos = "bottomright")
+plotResults(res, 8, ylab = "Training time in seconds", log = TRUE, legend.pos = "bottomright")
 plotResults(res, 1, log = TRUE)
 
 
-pdf("./figure/rsq_results.pdf", height = 4)
+pdf("./figure/rsq_results.pdf", height = 5)
 par(mar = c(4, 4, 1, 2) + 0.1)
-plot_results(5, ylab = "R-Squared")
+plotResults(res, 5, ylab = "R-Squared", legend.pos = "bottomright")
 dev.off()
 
-pdf("./figure/spearman_results.pdf", height = 4)
+pdf("./figure/spearman_results.pdf", height = 5)
 par(mar = c(4, 4, 1, 2) + 0.1)
-plot_results(6, ylab = "Spearmans-Rho", legend.pos = "bottomright")
+plotResults(res, 6, ylab = "Spearman-Rho", ylim = c(0,1), legend.pos = "bottomright")
 dev.off()
 
 pdf("./figure/time_results.pdf", height = 4)
 par(mar = c(4, 4, 1, 2) + 0.1)
-plot_results(8, ylab = "Training time in seconds", legend.pos = "bottomright", log = TRUE)
+plotResults(res, 8, ylab = "Training time in seconds", log = TRUE, legend.pos = "bottomright")
+dev.off()
+
+# For the blog
+png("./figure/rsq_results.png", height = 400)
+par(mar = c(4, 4, 1, 2) + 0.1)
+plotResults(res, 5, ylab = "R-Squared", legend.pos = "bottomright")
+dev.off()
+
+png("./figure/spearman_results.png", height = 400)
+par(mar = c(4, 4, 1, 2) + 0.1)
+plotResults(res, 6, ylab = "Spearman-Rho", ylim = c(0,1), legend.pos = "bottomright")
+dev.off()
+
+png("./figure/time_results.png", height = 400)
+par(mar = c(4, 4, 1, 2) + 0.1)
+plotResults(res, 8, ylab = "Training time in seconds", log = TRUE, legend.pos = "bottomright")
 dev.off()
 
 
@@ -101,16 +118,17 @@ addLearner(new_lrns=lrns, filename="classification_RepCV5_10.RData")
 res = extractResults(filename = "classification_CV5.RData")
 evaluateResults(res)
 
-plotResults(res, 1, log = FALSE, legend.pos = "topleft")
-plotResults(res, 2, log = FALSE, legend.pos = "topleft")
-plotResults(res, 3, log = FALSE, legend.pos = "topleft")
-plotResults(res, 4, log = FALSE, legend.pos = "topleft")
-plotResults(res, 5, log = FALSE, legend.pos = "topleft")
-plotResults(res, 5, log = TRUE, legend.pos = "topleft")
+plotResults(res, 1, log = FALSE, legend.pos = "bottomright")
+plotResults(res, 2, log = FALSE, legend.pos = "bottomright", ylab = "Multiclass AUC", ylim = c(0.5, 1))
+plotResults(res, 3, log = FALSE, legend.pos = "bottomright", ylab = "Multiclass Brier Score")
+plotResults(res, 4, log = FALSE, legend.pos = "topleft", ylab = "Logarithmic Loss")
+plotResults(res, 5, log = FALSE, legend.pos = "bottomright", ylab = "Training time in seconds")
+plotResults(res, 5, log = TRUE, legend.pos = "bottomright", ylab = "Training time in seconds")
 
 #
 # gradient boosting algos better calibrated for probability (brier score)
 # especially xgboost_best for logloss
+# catboost is missing!
 
 
 
